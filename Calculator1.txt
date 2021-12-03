@@ -1,0 +1,158 @@
+package com.company;
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+//import java.lang.String;
+
+class NewCalculator1 extends JFrame implements ActionListener {
+    static JFrame f;
+    static JTextField l;
+    String s0, s1, s2;
+
+    // default Constructor
+    NewCalculator1() {
+        s0 = s1 = s2 = " ";
+    }
+
+    public static void main(String[] args) {
+        // Create a Frame
+        f = new JFrame("Calculator");
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+         System.out.println(e.getMessage());
+           }
+        NewCalculator1 c1 = new NewCalculator1();
+        l = new JTextField(16);
+        l.setEditable(false);
+        // Create Button object
+        JButton b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, ba, bs, bd, bm, be, beq, beq1;
+        b0 = new JButton("0");
+        b1 = new JButton("1");
+        b2 = new JButton("2");
+        b3 = new JButton("3");
+        b4 = new JButton("4");
+        b5 = new JButton("5");
+        b6 = new JButton("6");
+        b7 = new JButton("7");
+        b8 = new JButton("8");
+        b9 = new JButton("9");
+        beq1 = new JButton("=");
+        ba = new JButton("+");
+        bs = new JButton("-");
+        bd = new JButton("/");
+        bm = new JButton("x");
+        beq = new JButton("C");
+        be = new JButton(".");
+        JPanel p = new JPanel();
+        // AddActionListener
+        bm.addActionListener(c1);
+        bd.addActionListener(c1);
+        bs.addActionListener(c1);
+        ba.addActionListener(c1);
+        b9.addActionListener(c1);
+        b8.addActionListener(c1);
+        b7.addActionListener(c1);
+        b6.addActionListener(c1);
+        b5.addActionListener(c1);
+        b4.addActionListener(c1);
+        b3.addActionListener(c1);
+        b2.addActionListener(c1);
+        b1.addActionListener(c1);
+        b0.addActionListener(c1);
+        be.addActionListener(c1);
+        beq.addActionListener(c1);
+        beq1.addActionListener(c1);
+        // Add Element to Panel
+        p.add(l);
+        p.add(b1);
+        p.add(b2);
+        p.add(b3);
+        p.add(ba);
+        p.add(b4);
+        p.add(b5);
+        p.add(b6);
+        p.add(bs);
+        p.add(b7);
+        p.add(b8);
+        p.add(b9);
+        p.add(bm);
+        p.add(be);
+        p.add(b0);
+        p.add(beq);
+        p.add(bd);
+        p.add(beq1);
+        // Set Background of panel
+        p.setBackground(Color.blue);
+        f.setForeground(Color.yellow);
+        // Add panel to frame
+        f.add(p);
+        f.setSize(230, 260);
+        f.setLocation(400,300);
+        f.setVisible(true);
+        f.show();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+        String s = ae.getActionCommand();
+        // If the value is Number
+        if ((s.charAt(0) >= '0' && s.charAt(0) <= '9') || (s.charAt(0) == '.')) {
+            // If operand is present then add to second number
+            if (!s1.equals(" "))
+                s2 = s2 + s;
+            else
+                s0 = s0 + s;
+            // Set the value of text
+            l.setText(s0 + s1 + s2);
+        } else if (s.charAt(0) == 'C') {
+            // clear the one letter
+            s0 = s1 = s2 = " ";
+            // Again set the text
+            l.setText(s0 + s1 + s2);
+        } else if (s.charAt(0) == '=') {
+            // Store the value in first
+            double de;
+            if (s1.equals("+"))
+                de = (Double.parseDouble(s0) + Double.parseDouble(s2));
+            else if (s1.equals("-"))
+                de = (Double.parseDouble(s0) - Double.parseDouble(s2));
+            else if (s1.equals("/"))
+                de = ((Double.parseDouble(s0)) / (Double.parseDouble(s2)));
+            else
+                de = (Double.parseDouble(s0) * Double.parseDouble(s2));
+            // Again set the text
+            l.setText(s0+s1+s2 + "=" + de);
+            // Convert it into String
+            s0 = Double.toString(de);
+            s1 = s2 = " ";
+        } else {
+            // If there was no operand
+            if (s1.equals(" ") || s2.equals(" "))
+                s1 = s;
+            else {
+                double de;
+                // Store the value in first
+                if (s1.equals("+"))
+                    de = (Double.parseDouble(s0) + Double.parseDouble(s2));
+                else if (s1.equals("-"))
+                    de = (Double.parseDouble(s0) - Double.parseDouble(s2));
+                else if (s1.equals("/"))
+                    de = ((Double.parseDouble(s0)) / (Double.parseDouble(s2)));
+                else
+                    de = Double.parseDouble(s0) * Double.parseDouble(s2);
+                // Convert it into String
+                s0 = Double.toString(de);
+                // Place the operator
+                s1 = s;
+                // Make the operand blank
+                s2 = " ";
+                // set the value of text
+                l.setText(s0 + s1 + s2);
+            }
+        }
+    }
+}
+
+
+
